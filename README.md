@@ -39,3 +39,9 @@
 ![test in idea](images/ideatest.jpg)
 11. Alternatively, you can run `mvn test` on the root directory in terminal
 ![test in terminal](images/terminaltest.jpg)
+
+## .gitignore
+Most are default options provided by GitHub that cover common patterns for ignoring files and directories in a Java project. Added `.idea` and `.DS_Store` to ignore IntelliJ IDEA-specific configuration files/directories and macOS-specific file.
+
+## About the License
+The GNU General Public License (GPL) version 3.0 is a strong copyleft license that comes with certain requirements and restrictions. This license ensures that anyone who uses or modifies our code must also make their contributions available under the same terms, fostering a collaborative and transparent development environment. Therefore, choosing the GPL-3.0 license for our project is suitable as we want to promote open-source principles and ensure that our project and any derivative works remain open source.

@@ -28,7 +28,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file java-template-project/pom.xml
+      run: mvn -B package --file back-end/pom.xml
     - name: Run tests
-      run: cd java-template-project && mvn test
+      run: cd back-end && mvn test
       

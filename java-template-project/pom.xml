@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.open-source-dev</groupId>
-	<artifactId>java-template-project</artifactId>
+	<artifactId>back-end</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>java-template-project</name>
-	<description>Template Java project using Spring Boot</description>
+	<name>back-end</name>
+	<description>Charge Finder Java Project</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

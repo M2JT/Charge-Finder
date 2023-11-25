@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./css/Home.css";
 import { Tabs, Tab, Button, Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import {
   GoogleMap,
   MarkerF,
@@ -11,6 +11,8 @@ import {
 import chargingStationIcon from "./images/charging-station.png";
 import curLocationIcon from "./images/cur-location.png";
 import centerIcon from "./images/center.png";
+import "./css/Home.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Home = () => {
   const { isLoaded } = useJsApiLoader({
@@ -37,38 +39,38 @@ const Home = () => {
   ];
 
   // get user's current location using Geolocation API
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setCurrentLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        (error) => {
-          console.error("Error getting current location:", error);
-        }
-      );
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         setCurrentLocation({
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude,
+  //         });
+  //       },
+  //       (error) => {
+  //         console.error("Error getting current location:", error);
+  //       }
+  //     );
+  //   }
+  // }, []);
 
   // call the calc direction function when a charging station
   // is selected
-  useEffect(() => {
-    if (selectedStationLocation) {
-      calculateDirections(currentLocation, selectedStationLocation);
-      setIsGettingDirection(false);
-    }
-  }, [selectedStationLocation, selectedTravelMode]);
-
-  // for testing purpose DO NOT DELETE
   // useEffect(() => {
   //   if (selectedStationLocation) {
-  //     calculateDirections(homeLocation, selectedStationLocation);
+  //     calculateDirections(currentLocation, selectedStationLocation);
   //     setIsGettingDirection(false);
   //   }
   // }, [selectedStationLocation, selectedTravelMode]);
+
+  // for testing purpose DO NOT DELETE
+  useEffect(() => {
+    if (selectedStationLocation) {
+      calculateDirections(homeLocation, selectedStationLocation);
+      setIsGettingDirection(false);
+    }
+  }, [selectedStationLocation, selectedTravelMode]);
 
   const calculateDirections = async (origin, destination) => {
     const directionsService = new window.google.maps.DirectionsService();
@@ -94,19 +96,36 @@ const Home = () => {
     setIsInfoWindowOpen(false);
   };
 
+  // const centerMapOnUser = () => {
+  //   if (currentLocation && map) {
+  //     map.panTo(currentLocation);
+  //     map.setZoom(15);
+  //   }
+  // };
+
+  // for testing DO NOT DELETE
   const centerMapOnUser = () => {
-    if (currentLocation && map) {
-      map.panTo(currentLocation);
+    if (homeLocation && map) {
+      map.panTo(homeLocation);
       map.setZoom(15);
     }
   };
 
+  const Reroute = ({ to, children }) => (
+    <Link className="reroute" to={to}>
+      {children}
+    </Link>
+  );
+
   return (
     <div className="home-container">
       <Tabs className="home-tabs" defaultActiveKey="map">
-        <Tab eventKey="map" title="Map"></Tab>
+        <Tab eventKey="map" title={<Reroute to="/">Map</Reroute>}></Tab>
         <Tab eventKey="rentals" title="Rentals"></Tab>
-        <Tab eventKey="account" title="Account"></Tab>
+        <Tab
+          eventKey="account"
+          title={<Reroute to="/login">Login/Register</Reroute>}
+        ></Tab>
       </Tabs>
 
       <img
@@ -127,10 +146,10 @@ const Home = () => {
             width: "100%",
           }}
           // for testing purpose DO NOT DELETE
-          // zoom={15}
-          // center={homeLocation}
-          zoom={currentLocation ? 15 : 10}
-          center={currentLocation || defaultLocation}
+          zoom={15}
+          center={homeLocation}
+          // zoom={currentLocation ? 15 : 10}
+          // center={currentLocation || defaultLocation}
           onLoad={(map) => setMap(map)}
         >
           {/* show the location of each charging station on the map */}
@@ -183,7 +202,7 @@ const Home = () => {
           )}
 
           {/* user's current location */}
-          {currentLocation && (
+          {/* {currentLocation && (
             <MarkerF
               position={currentLocation}
               label="You are here!"
@@ -192,10 +211,10 @@ const Home = () => {
                 scaledSize: new window.google.maps.Size(45, 45),
               }}
             />
-          )}
+          )} */}
 
           {/* for testing purpose DO NOT DELETE */}
-          {/* {homeLocation && (
+          {homeLocation && (
             <MarkerF
               position={homeLocation}
               label="You are here!"
@@ -204,7 +223,7 @@ const Home = () => {
                 scaledSize: new window.google.maps.Size(45, 45),
               }}
             />
-          )} */}
+          )}
 
           {/* show the route to a selected charging station */}
           {directions && isGettingDirection && (

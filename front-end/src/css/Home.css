@@ -19,3 +19,7 @@
 #getDirectionBtn {
   margin-top: 10px;
 }
+
+.reroute {
+  text-decoration: none;
+}

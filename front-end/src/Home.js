@@ -18,6 +18,7 @@ const Home = () => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
   });
+  const usernameLocalStorage = localStorage.getItem("username");
   const [map, setMap] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [selectedStationLocation, setSelectedStationLocation] = useState(null);
@@ -124,7 +125,11 @@ const Home = () => {
         <Tab eventKey="rentals" title="Rentals"></Tab>
         <Tab
           eventKey="account"
-          title={<Reroute to="/login">Login/Register</Reroute>}
+          title={usernameLocalStorage ? (
+            <Reroute to="/account">Account</Reroute>
+          ) : (
+            <Reroute to="/login">Login/Register</Reroute>
+          )}
         ></Tab>
       </Tabs>
 

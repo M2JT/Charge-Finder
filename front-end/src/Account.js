@@ -1,5 +1,5 @@
 import { Link, Navigate } from "react-router-dom";
-import { Popover, OverlayTrigger, Tabs, Tab } from "react-bootstrap";
+import { Popover, OverlayTrigger, Tabs, Tab, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/Account.css";
 import profileImg from "./images/profile-img.png";
@@ -7,12 +7,12 @@ import profileImg from "./images/profile-img.png";
 const Account = () => {
   const username = localStorage.getItem("username");
 
-  const showRentalHistoryPopover = (
-    <Popover className="Account-overlay">
-      <Popover.Header>System Messages:</Popover.Header>
-      <Popover.Body>Hello!</Popover.Body>
-    </Popover>
-  );
+  // const showRentalHistoryPopover = (
+  //   <Popover className="Account-overlay">
+  //     <Popover.Header>System Messages:</Popover.Header>
+  //     <Popover.Body>Hello!</Popover.Body>
+  //   </Popover>
+  // );
 
   const Reroute = ({ to, children }) => (
     <Link to={to} className="reroute">
@@ -20,13 +20,22 @@ const Account = () => {
     </Link>
   );
 
+  // handle user logout
+  const handleLogout = () => {
+    localStorage.removeItem("username");
+    window.location.href = "/login";
+  };
+
   return (
     <>
       {username ? (
         <div>
           <Tabs className="home-tabs" defaultActiveKey="account">
             <Tab eventKey="map" title={<Reroute to="/">Map</Reroute>}></Tab>
-            <Tab eventKey="rentals" title="Rentals"></Tab>
+            <Tab
+              eventKey="rentals"
+              title={<Reroute to="/rentals">Rental History</Reroute>}
+            ></Tab>
             <Tab
               eventKey="account"
               title={<Reroute to="/account">Account</Reroute>}
@@ -58,7 +67,10 @@ const Account = () => {
                     <b>Joined on: </b> 11/25/2023
                   </p>
                 </div>
-                <OverlayTrigger
+                <Button onClick={handleLogout} className="Account-logoutBtn">
+                  Logout
+                </Button>
+                {/* <OverlayTrigger
                   trigger="click"
                   placement="top"
                   overlay={showRentalHistoryPopover}
@@ -66,7 +78,7 @@ const Account = () => {
                   <button className="Account-checkRentalHistoryBtn">
                     Rental History
                   </button>
-                </OverlayTrigger>
+                </OverlayTrigger> */}
               </div>
             </div>
           </main>

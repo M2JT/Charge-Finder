@@ -69,3 +69,7 @@ body {
   height: 300px;
   overflow-y: scroll;
 }
+
+.Account-logoutBtn {
+  margin-top: 10px;
+}

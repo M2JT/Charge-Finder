@@ -1,0 +1,29 @@
+.rental-history-container {
+  margin: 20px;
+}
+
+h2 {
+  color: #333;
+}
+
+.table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+th,
+td {
+  text-align: center;
+}
+
+th {
+  background-color: #f8f9fa;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #e9ecef;
+}

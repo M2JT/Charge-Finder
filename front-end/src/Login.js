@@ -34,7 +34,7 @@ const Login = () => {
         <div>
           <Tabs className="home-tabs" defaultActiveKey="account">
             <Tab eventKey="map" title={<Reroute to="/">Map</Reroute>}></Tab>
-            <Tab eventKey="rentals" title="Rentals"></Tab>
+            <Tab eventKey="rentals" title={<Reroute to="/rentals">Rental History</Reroute>}></Tab>
             <Tab
               eventKey="account"
               title={<Reroute to="/login">Login/Register</Reroute>}

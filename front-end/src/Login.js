@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { Tabs, Tab, Button, Form } from "react-bootstrap";
+import { Link, Navigate, json, redirect } from "react-router-dom";
+import { Tabs, Tab} from "react-bootstrap";
 import "./css/Login.css";
+import AuthForm from "./components/AuthForm.jsx";
 
 const Login = () => {
   const usernameLocalStorage = localStorage.getItem("username");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+
 
   const Reroute = ({ to, children }) => (
     <Link to={to} className="reroute">
@@ -14,17 +14,17 @@ const Login = () => {
     </Link>
   );
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
 
-    if (username && password) {
-      // store username in localStorage
-      localStorage.setItem("username", username);
-      window.location.href = "/account";
-    } else {
-      alert("Please fill out all parts!");
-    }
-  };
+  //   if (username && password) {
+  //     // store username in localStorage
+  //     localStorage.setItem("username", username);
+  //     window.location.href = "/account";
+  //   } else {
+  //     alert("Please fill out all parts!");
+  //   }
+  // };
 
   return (
     <>
@@ -51,28 +51,7 @@ const Login = () => {
                 </div>
               </div>
               <div className="Login-loginDiv">
-                <Form className="Login-form" onSubmit={handleLogin}>
-                  <div className="Login-usernameEmailForm">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                      placeholder="Enter username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </div>
-                  <div className="Login-passwordForm">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </div>
-                  <Button type="submit" className="Login-submitBtn">
-                    Login
-                  </Button>
-                </Form>
+                <AuthForm />
               </div>
             </div>
           </main>
@@ -83,3 +62,37 @@ const Login = () => {
 };
 
 export default Login;
+
+export async function action({ request }) {
+  const data = await request.formData();
+  const authData = {
+    email: data.get('email'),
+    password: data.get('password'),
+  };
+
+  const response = await fetch('http://localhost:8080/' + 'login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(authData),
+  });
+
+  if (response.status === 422 || response.status === 401) {
+    return response;
+  }
+
+  if (!response.ok) {
+    throw json({ message: 'Could not authenticate user.' }, { status: 500 });
+  }
+
+  const resData = await response.json();
+  const token = resData.token;
+
+  localStorage.setItem('token', token);
+  const expiration = new Date();
+  expiration.setHours(expiration.getHours() + 1);
+  localStorage.setItem('expiration', expiration.toISOString());
+
+  return redirect('/');
+}

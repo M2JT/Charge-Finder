@@ -1,0 +1,33 @@
+.loginForm {
+    width: 330px;
+    margin: auto;
+  }
+  
+.loginUsernameEmailForm {
+    position: relative;
+    top: 20px;
+  }
+  .loginUsernameEmailForm label{
+    width: 100%
+  }
+  .loginUsernameEmailForm input{
+    width: 100%
+  }
+.loginPasswordForm {
+    position: relative;
+    top: 40px;
+  }
+  .loginPasswordForm label{
+    width: 100%;
+  }
+  .loginPasswordForm input{
+    width: 100%;
+  }
+  .loginSubmitBtn {
+    position: relative;
+    top: 80px;
+    left: 120px;
+    width: 80px;
+    height: 30px;
+    line-height: 0px;
+  }

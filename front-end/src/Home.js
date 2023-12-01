@@ -15,6 +15,7 @@ import "./css/Home.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Home = () => {
+  console.log(process.env.REACT_APP_API_KEY);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
   });

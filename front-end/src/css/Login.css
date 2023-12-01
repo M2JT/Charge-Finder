@@ -48,21 +48,6 @@ body {
   left: 1px;
 }
 
-.Login-form {
-  width: 330px;
-  margin: auto;
-}
-
-.Login-usernameEmailForm {
-  position: relative;
-  top: 20px;
-}
-
-.Login-passwordForm {
-  position: relative;
-  top: 40px;
-}
-
 .Login-submitBtn {
   position: relative;
   top: 80px;

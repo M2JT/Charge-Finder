@@ -54,7 +54,7 @@ const Account = () => {
               <div className="Account-infoDiv">
                 <div className="Account-details">
                   <p>
-                    <b>Username: </b> admin
+                    <b>Username: </b> {username}
                   </p>
                 </div>
                 <div className="Account-details">

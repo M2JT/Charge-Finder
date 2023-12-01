@@ -22,13 +22,11 @@ const Account = () => {
 
   // handle user logout
   const handleLogout = () => {
-    localStorage.removeItem("username");
-    window.location.href = "/login";
+    window.location.href = "/logout";
   };
 
   return (
     <>
-      {username ? (
         <div>
           <Tabs className="home-tabs" defaultActiveKey="account">
             <Tab eventKey="map" title={<Reroute to="/">Map</Reroute>}></Tab>
@@ -83,9 +81,6 @@ const Account = () => {
             </div>
           </main>
         </div>
-      ) : (
-        <Navigate to="/login" />
-      )}
     </>
   );
 };

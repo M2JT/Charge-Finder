@@ -1,0 +1,56 @@
+.registerForm {
+    width: 330px;
+    margin: auto;
+  }
+  
+  .registerUsernameForm {
+    position: relative;
+    top: 20px;
+  }
+  
+  .registerUsernameForm label{
+    width: 100%;
+  }
+  .registerUsernameForm input{
+    width: 100%;
+  }
+  .registerEmailForm {
+    position: relative;
+    top: 30px;
+  }
+  .registerEmailForm label{
+    width: 100%;
+  }
+  .registerEmailForm input{
+    width: 100%;
+  }
+  .registerPasswordForm {
+    position: relative;
+    top: 40px;
+  }
+  .registerPasswordForm label{
+    width: 100%;
+  }
+  .registerPasswordForm input{
+    width: 100%;
+  }
+  .registerSubmitBtn {
+    position: relative;
+    top: 69px;
+    left: 30%;
+    width: 8rem;
+    height: 2rem;
+    line-height: 0px;
+  }
+
+  .registerFormErrorMsg {
+    position: relative;
+    top: 4.5rem;
+  }
+  .registerFormError {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 4rem;
+  }

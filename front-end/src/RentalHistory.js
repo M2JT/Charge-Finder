@@ -3,7 +3,6 @@ import { Link, Navigate } from "react-router-dom";
 import "./css/RentalHistory.css";
 
 const RentalHistory = () => {
-  const usernameLocalStorage = localStorage.getItem("username");
   const rentalHistoryData = [
     {
       date: "2023-11-25",
@@ -22,7 +21,6 @@ const RentalHistory = () => {
 
   return (
     <>
-    {usernameLocalStorage ? (
         <div className="rental-history-container">
         <Tabs className="home-tabs" defaultActiveKey="rentals">
           <Tab eventKey="map" title={<Reroute to="/">Map</Reroute>}></Tab>
@@ -58,9 +56,6 @@ const RentalHistory = () => {
           </tbody>
         </Table>
       </div>
-    ) : (
-        <Navigate to={"/login"}/>
-    )}
     </>
   );
 };

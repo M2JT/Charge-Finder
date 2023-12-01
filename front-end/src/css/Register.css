@@ -41,39 +41,10 @@ body {
   border: 1px solid black;
   margin: auto;
   width: 360px;
-  height: 450px;
+  height: 22rem;
   position: relative;
   top: 20px;
   left: 1px;
-}
-
-.Register-form {
-  width: 330px;
-  margin: auto;
-}
-
-.Register-usernameForm {
-  position: relative;
-  top: 20px;
-}
-
-.Register-emailForm {
-  position: relative;
-  top: 30px;
-}
-
-.Register-passwordForm {
-  position: relative;
-  top: 40px;
-}
-
-.Register-submitBtn {
-  position: relative;
-  top: 60px;
-  left: 110px;
-  line-height: 0px;
-  width: 85px;
-  height: 30px;
 }
 
 .reroute {

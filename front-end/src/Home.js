@@ -13,8 +13,10 @@ import curLocationIcon from "./images/cur-location.png";
 import centerIcon from "./images/center.png";
 import "./css/Home.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { getAuthToken } from "./util/auth";
 
 const Home = () => {
+  const token = getAuthToken();
   console.log(process.env.REACT_APP_API_KEY);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
@@ -126,7 +128,7 @@ const Home = () => {
         <Tab eventKey="rentals" title={<Reroute to="/rentals">Rental History</Reroute>}></Tab>
         <Tab
           eventKey="account"
-          title={usernameLocalStorage ? (
+          title={token ? (
             <Reroute to="/account">Account</Reroute>
           ) : (
             <Reroute to="/login">Login/Register</Reroute>

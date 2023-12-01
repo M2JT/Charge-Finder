@@ -27,7 +27,7 @@ body {
 
 .Account-tabDiv > div {
   width: 110px;
-  height: 60px;
+  height: 4rem;
   border: 1px solid black;
   text-align: center;
   vertical-align: middle;
@@ -40,7 +40,7 @@ body {
 
 .Account-infoDiv {
   width: 360px;
-  height: 400px;
+  height: 16.5rem;
   border: 1px solid black;
   position: relative;
   left: 20px;

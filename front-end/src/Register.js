@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { Tabs, Tab, Button, Form } from "react-bootstrap";
+import { Link, Navigate, json, redirect } from "react-router-dom";
+import { Tabs, Tab } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/Register.css";
+import SignUpForm from "./components/SignUpForm";
+import { getAuthToken } from "./util/auth";
 
 const Register = () => {
-  const usernameLocalStorage = localStorage.getItem("username");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const token = getAuthToken();
 
   const Reroute = ({ to, children }) => (
     <Link to={to} className="reroute">
@@ -16,27 +15,30 @@ const Register = () => {
     </Link>
   );
 
-  const handleRegister = (e) => {
-    e.preventDefault();
+  // const handleRegister = (e) => {
+  //   e.preventDefault();
 
-    if (username && password && email) {
-      // store username in localStorage
-      localStorage.setItem("username", username);
-      window.location.href = "/account";
-    } else {
-      alert("Please fill out all parts!");
-    }
-  };
+  //   if (username && password && email) {
+  //     // store username in localStorage
+  //     localStorage.setItem("username", username);
+  //     window.location.href = "/account";
+  //   } else {
+  //     alert("Please fill out all parts!");
+  //   }
+  // };
 
   return (
     <>
-      {usernameLocalStorage ? (
+      {token ? (
         <Navigate to={"/account"} />
       ) : (
         <div>
           <Tabs className="home-tabs" defaultActiveKey="account">
             <Tab eventKey="map" title={<Reroute to="/">Map</Reroute>}></Tab>
-            <Tab eventKey="rentals" title={<Reroute to="/rentals">Rental History</Reroute>}></Tab>
+            <Tab
+              eventKey="rentals"
+              title={<Reroute to="/rentals">Rental History</Reroute>}
+            ></Tab>
             <Tab
               eventKey="account"
               title={<Reroute to="/login">Login/Register</Reroute>}
@@ -53,40 +55,7 @@ const Register = () => {
                 <div className="Register-registerTab">Sign up</div>
               </div>
               <div className="Register-registerDiv">
-                <Form className="Register-form" onSubmit={handleRegister}>
-                  <div className="Register-usernameForm">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                      placeholder="Enter username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </div>
-                  <div className="Register-emailForm">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Enter email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <Form.Text className="text-muted">
-                      We'll never share your email with anyone else.
-                    </Form.Text>
-                  </div>
-                  <div className="Register-passwordForm">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Enter password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </div>
-                  <Button className="Register-submitBtn" type="submit">
-                    Sign Up
-                  </Button>
-                </Form>
+                <SignUpForm />
               </div>
             </div>
           </main>
@@ -97,3 +66,39 @@ const Register = () => {
 };
 
 export default Register;
+
+export async function action({ request }) {
+  const data = await request.formData();
+  const authData = {
+    email: data.get("email"),
+    password: data.get("password"),
+    username: data.get("username"),
+  };
+
+  const response = await fetch("http://localhost:8080/" + "signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(authData),
+  });
+
+  if (response.status === 422 || response.status === 401) {
+    return response;
+  }
+
+  if (!response.ok) {
+    throw json({ message: "Could not authenticate user." }, { status: 500 });
+  }
+
+  const resData = await response.json();
+  const token = resData.token;
+
+  localStorage.setItem("token", token);
+  const expiration = new Date();
+  expiration.setHours(expiration.getHours() + 1);
+  localStorage.setItem("expiration", expiration.toISOString());
+  localStorage.setItem('username','admin');
+
+  return redirect("/");
+}

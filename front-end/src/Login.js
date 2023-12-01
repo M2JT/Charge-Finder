@@ -3,10 +3,10 @@ import { Link, Navigate, json, redirect } from "react-router-dom";
 import { Tabs, Tab} from "react-bootstrap";
 import "./css/Login.css";
 import AuthForm from "./components/AuthForm.jsx";
+import { getAuthToken } from "./util/auth.js";
 
 const Login = () => {
-  const usernameLocalStorage = localStorage.getItem("username");
-
+  const token = getAuthToken();
 
   const Reroute = ({ to, children }) => (
     <Link to={to} className="reroute">
@@ -28,7 +28,7 @@ const Login = () => {
 
   return (
     <>
-      {usernameLocalStorage ? (
+      {token ? (
         <Navigate to={"/account"} />
       ) : (
         <div>
@@ -93,6 +93,7 @@ export async function action({ request }) {
   const expiration = new Date();
   expiration.setHours(expiration.getHours() + 1);
   localStorage.setItem('expiration', expiration.toISOString());
+  localStorage.setItem('username','admin');
 
   return redirect('/');
 }

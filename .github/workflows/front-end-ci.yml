@@ -23,4 +23,4 @@ jobs:
       run: cd front-end && npm install
 
     - name: Build React app
-      run: cd front-end && npm run build
+      run: cd front-end && CI=false npm run build

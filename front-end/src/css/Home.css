@@ -16,10 +16,24 @@
   color: #fff;
 }
 
-#getDirectionBtn {
-  margin-top: 10px;
+#rentBtn {
+  margin-left: 10px;
 }
 
 .reroute {
   text-decoration: none;
+}
+
+.infowindow-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pTag {
+  font-size: 15px;
+}
+
+#quantityPTag {
+  margin-top: 10px;
 }

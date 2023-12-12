@@ -121,18 +121,28 @@ const Home = () => {
     </Link>
   );
 
+  const rentPowerBank = () => {
+    alert("rent successful!");
+    closeInfoWindow();
+  };
+
   return (
     <div className="home-container">
       <Tabs className="home-tabs" defaultActiveKey="map">
         <Tab eventKey="map" title={<Reroute to="/">Map</Reroute>}></Tab>
-        <Tab eventKey="rentals" title={<Reroute to="/rentals">Rental History</Reroute>}></Tab>
+        <Tab
+          eventKey="rentals"
+          title={<Reroute to="/rentals">Rental History</Reroute>}
+        ></Tab>
         <Tab
           eventKey="account"
-          title={token ? (
-            <Reroute to="/account">Account</Reroute>
-          ) : (
-            <Reroute to="/login">Login/Register</Reroute>
-          )}
+          title={
+            token ? (
+              <Reroute to="/account">Account</Reroute>
+            ) : (
+              <Reroute to="/login">Login/Register</Reroute>
+            )
+          }
         ></Tab>
       </Tabs>
 
@@ -182,12 +192,18 @@ const Home = () => {
               position={selectedStationLocation}
               onCloseClick={closeInfoWindow}
             >
-              <div>
-                <p>Location: {directions.routes[0].legs[0].end_address}</p>
-                <p>Distance: {directions.routes[0].legs[0].distance.text}</p>
-                <p>Duration: {directions.routes[0].legs[0].duration.text}</p>
+              <div className="infowindow-container">
+                <p className="pTag">
+                  Location: {directions.routes[0].legs[0].end_address}
+                </p>
+                <p className="pTag">
+                  Distance: {directions.routes[0].legs[0].distance.text}
+                </p>
+                <p className="pTag">
+                  Duration: {directions.routes[0].legs[0].duration.text}
+                </p>
                 <Form.Group controlId="travelModeSelect">
-                  <Form.Label>Travel Mode: </Form.Label>
+                  <Form.Label className="pTag">Travel Mode: </Form.Label>
                   <Form.Control
                     as="select"
                     value={selectedTravelMode}
@@ -199,12 +215,23 @@ const Home = () => {
                     <option value="TRANSIT">Transit</option>
                   </Form.Control>
                 </Form.Group>
-                <Button
-                  onClick={() => setIsGettingDirection(true)}
-                  id="getDirectionBtn"
-                >
-                  get direction
-                </Button>
+                <p className="pTag" id="quantityPTag">
+                  Available Power Banks: <strong>18</strong>
+                </p>
+                <p className="pTag">
+                  Price: <strong>$9</strong>/day
+                </p>
+                <div className="button-container">
+                  <Button
+                    onClick={() => setIsGettingDirection(true)}
+                    id="getDirectionBtn"
+                  >
+                    Get Direction
+                  </Button>
+                  <Button onClick={() => rentPowerBank()} id="rentBtn">
+                    Rent
+                  </Button>
+                </div>
               </div>
             </InfoWindow>
           )}

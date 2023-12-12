@@ -3,7 +3,7 @@ CREATE TABLE user (
     username VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     user_password VARCHAR(255) NOT NULL,
-    join_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    join_date DATE NOT NULL,
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -21,7 +21,7 @@ CREATE TABLE rental_history (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     transaction_id INT NOT NULL,
-    rented_on_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    rented_on_date DATE NOT NULL,
     duration INT NOT NULL,
     charges INT NOT NULL,
     rental_status VARCHAR(255) NOT NULL,

@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opensourcedev.backend.mapper.StationMapper">
+    <resultMap id="StationResultMap" type="com.opensourcedev.backend.model.ChargingStation">
+        <id property="stationId" column="id"></id>
+        <result property="stationName" column="station_name"></result>
+        <result property="latitude" column="latitude"></result>
+        <result property="longitude" column="longitude"></result>
+        <result property="availablePowerBanks" column="available_power_banks"></result>
+        <result property="price" column="price"></result>
+    </resultMap>
+
+    <select id="getAllStationsInfo" resultMap="StationResultMap">
+        select * from charging_station_info;
+    </select>
+</mapper>

@@ -23,7 +23,7 @@ CREATE TABLE rental_history (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     transaction_id INT NOT NULL,
-    rented_on_date DATE NOT NULL,
+    rented_on_date DATETIME NOT NULL,
     duration INT NOT NULL,
     charges INT NOT NULL,
     rental_status VARCHAR(255) NOT NULL,

@@ -86,15 +86,15 @@ const RentalHistory = () => {
           {rentalHistoryData.map((item, index) => (
               <tr key={index}>
                 <td>{item.transactionId}</td>
-                <td>{format(new Date(item.date), 'M/ d/yyyy, HH:mm')}</td>
+                <td>{format(new Date(item.rentalDate), 'M/d/yyyy, HH:mm')}</td>
                 <td>{item.duration} hours</td>
-                <td>$ {item.charges}</td>
+                <td>{item.rentalStatus === 'Rented' ? `$ ${item.charges} per hour` : `$ ${item.charges}`}</td>
                 <td>{item.rentalStatus}</td>
                 <td>
                   {item.rentalStatus === 'Rented' && (
                       <button
                           className="return-button"
-                          onClick={() => handleReturn(item)}
+                          onClick={() => handleReturn(item.rentalId)}
                       >
                         Return
                       </button>

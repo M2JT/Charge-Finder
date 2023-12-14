@@ -14,7 +14,9 @@ CREATE TABLE charging_station_info (
     latitude DOUBLE NOT NULL,
     longitude DOUBLE NOT NULL,
     available_power_banks INT NOT NULL,
-    price INT NOT NULL
+    price INT NOT NULL,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE rental_history (
@@ -25,5 +27,7 @@ CREATE TABLE rental_history (
     duration INT NOT NULL,
     charges INT NOT NULL,
     rental_status VARCHAR(255) NOT NULL,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE (user_id, transaction_id)
 );

@@ -2,11 +2,12 @@ import { Table, Tabs, Tab } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { format } from 'date-fns';
+
 import "./css/RentalHistory.css";
 
 const RentalHistory = () => {
   const [rentalHistoryData, setRentalHistoryData] = useState([]);
-  const API_BASE_URL = 'http://localhost:8080/api/rental';
+  const API_BASE_URL = 'http://localhost:8080';
 
 
   useEffect(() => {
@@ -15,7 +16,10 @@ const RentalHistory = () => {
 
   const fetchRentalHistory = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}`);
+      //Todo: fetch current username / user id
+      const username = localStorage.getItem('username');
+      //const username = 'fe';
+      const response = await fetch(`${API_BASE_URL + '/getRentalHistory/' + username}`);
       if (response.ok) {
         const data = await response.json();
         setRentalHistoryData(data);
@@ -48,7 +52,6 @@ const RentalHistory = () => {
   };
 
 
-
   const Reroute = ({ to, children }) => (
     <Link to={to} className="reroute">
       {children}
@@ -71,8 +74,9 @@ const RentalHistory = () => {
         <Table striped bordered hover responsive>
           <thead>
           <tr>
+            <th>ID</th>
             <th>Start time</th>
-            <th>Duration</th>
+            <th>Final duration</th>
             <th>Charges</th>
             <th>Status</th>
             <th>Return charger</th>
@@ -81,13 +85,19 @@ const RentalHistory = () => {
           <tbody>
           {rentalHistoryData.map((item, index) => (
               <tr key={index}>
-                <td>{format(new Date(item.date), 'yyyy-MM-dd HH:mm:ss')}</td>
+                <td>{item.transactionId}</td>
+                <td>{format(new Date(item.date), 'M/ d/yyyy, HH:mm')}</td>
                 <td>{item.duration} hours</td>
                 <td>$ {item.charges}</td>
                 <td>{item.rentalStatus}</td>
                 <td>
                   {item.rentalStatus === 'Rented' && (
-                      <button onClick={() => handleReturn(item)}>Return</button>
+                      <button
+                          className="return-button"
+                          onClick={() => handleReturn(item)}
+                      >
+                        Return
+                      </button>
                   )}
                 </td>
               </tr>

@@ -27,6 +27,7 @@ CREATE TABLE rental_history (
     duration INT NOT NULL,
     charges INT NOT NULL,
     rental_status VARCHAR(255) NOT NULL,
+    charging_station_id INT NOT NULL,
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE (user_id, transaction_id)

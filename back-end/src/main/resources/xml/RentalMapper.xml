@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.opensourcedev.backend.mapper.RentalMapper">
+  <resultMap id="RentalResultMap" type="com.opensourcedev.backend.model.Rental">
+    <id property="rentalId" column="id"></id>
+    <result property="userId" column="user_id"></result>
+    <result property="transactionId" column="transaction_id"></result>
+    <result property="date" column="rented_on_date"></result>
+    <result property="duration" column="duration"></result>
+    <result property="charges" column="charges"></result>
+    <result property="rentalStatus" column="rental_status"></result>
+    <result property="chargingStationId" column="charging_station_id"></result>
+  </resultMap>
+
+  <select id="getRentalHistory" resultMap="RentalResultMap">
+    SELECT * FROM rental_history WHERE user_id = #{userId};
+  </select>
+</mapper>

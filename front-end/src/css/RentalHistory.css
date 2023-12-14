@@ -27,3 +27,20 @@ tr:nth-child(even) {
 tr:hover {
   background-color: #e9ecef;
 }
+
+
+.return-button {
+  background-color: #808080;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.return-button:hover {
+  background-color: #D3D3D3;
+}

@@ -14,6 +14,7 @@ import centerIcon from "./images/center.png";
 import "./css/Home.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { getAuthToken } from "./util/auth";
+import axios from "axios";
 
 const Home = () => {
   const token = getAuthToken();
@@ -24,23 +25,44 @@ const Home = () => {
   const usernameLocalStorage = localStorage.getItem("username");
   const [map, setMap] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
-  const [selectedStationLocation, setSelectedStationLocation] = useState(null);
+  const [selectedStation, setSelectedStation] = useState(null);
   const [directions, setDirections] = useState(null);
   const [isGettingDirection, setIsGettingDirection] = useState(false);
   const [selectedTravelMode, setSelectedTravelMode] = useState("DRIVING");
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
   const defaultLocation = { lat: 40.73061, lng: -73.935242 };
   const homeLocation = { lat: 40.691929, lng: -73.97998 };
-  const allChargingStations = [
-    { name: "school", position: { lat: 40.694292, lng: -73.985205 } },
-    { name: "random place", position: { lat: 40.6933639, lng: -73.9704101 } },
-    { name: "bobst lib", position: { lat: 40.7294287, lng: -73.9972178 } },
-    { name: "machi machi", position: { lat: 40.7479431, lng: -73.987102 } },
-    {
-      name: "flatiron building",
-      position: { lat: 40.7410592, lng: -73.9896416 },
-    },
-  ];
+  const [allStationsInfo, setAllStationsInfo] = useState([]);
+
+  // const allChargingStations = [
+  //   { name: "school", position: { lat: 40.694292, lng: -73.985205 } },
+  //   { name: "random place", position: { lat: 40.6933639, lng: -73.9704101 } },
+  //   { name: "bobst lib", position: { lat: 40.7294287, lng: -73.9972178 } },
+  //   { name: "machi machi", position: { lat: 40.7479431, lng: -73.987102 } },
+  //   {
+  //     name: "flatiron building",
+  //     position: { lat: 40.7410592, lng: -73.9896416 },
+  //   },
+  // ];
+
+  useEffect(() => {
+    async function fetchAllStationsInfo() {
+      try {
+        console.log("fetching all stations info from backend...");
+        await axios
+          .get(`${process.env.REACT_APP_SERVER_URL}/getAllStations`)
+          .then((response) => {
+            console.log(response.data);
+            setAllStationsInfo(response.data);
+          });
+      } catch (err) {
+        console.log("couldn't get stations info from backend...");
+        console.error(err);
+      }
+    }
+
+    fetchAllStationsInfo();
+  }, []);
 
   // get user's current location using Geolocation API
   // useEffect(() => {
@@ -70,14 +92,18 @@ const Home = () => {
 
   // for testing purpose DO NOT DELETE
   useEffect(() => {
-    if (selectedStationLocation) {
-      calculateDirections(homeLocation, selectedStationLocation);
+    if (selectedStation) {
+      calculateDirections(homeLocation, selectedStation);
       setIsGettingDirection(false);
     }
-  }, [selectedStationLocation, selectedTravelMode]);
+  }, [selectedStation, selectedTravelMode]);
 
-  const calculateDirections = async (origin, destination) => {
+  const calculateDirections = async (origin, selectedStation) => {
     const directionsService = new window.google.maps.DirectionsService();
+    const destination = {
+      lat: selectedStation.latitude,
+      lng: selectedStation.longitude,
+    };
 
     await directionsService.route(
       {
@@ -157,7 +183,7 @@ const Home = () => {
         }}
       />
 
-      {isLoaded ? (
+      {isLoaded && allStationsInfo.length !== 0 ? (
         <GoogleMap
           mapContainerStyle={{
             height: "93vh",
@@ -171,12 +197,12 @@ const Home = () => {
           onLoad={(map) => setMap(map)}
         >
           {/* show the location of each charging station on the map */}
-          {allChargingStations.map((station) => (
+          {allStationsInfo.map((station) => (
             <MarkerF
-              key={station.name}
-              position={station.position}
+              key={station.stationName}
+              position={{ lat: station.latitude, lng: station.longitude }}
               onClick={() => {
-                setSelectedStationLocation(station.position);
+                setSelectedStation(station);
                 setIsInfoWindowOpen(true);
               }}
               icon={{
@@ -187,9 +213,12 @@ const Home = () => {
           ))}
 
           {/* show the detailed direction info */}
-          {selectedStationLocation && directions && isInfoWindowOpen && (
+          {selectedStation && directions && isInfoWindowOpen && (
             <InfoWindow
-              position={selectedStationLocation}
+              position={{
+                lat: selectedStation.latitude,
+                lng: selectedStation.longitude,
+              }}
               onCloseClick={closeInfoWindow}
             >
               <div className="infowindow-container">
@@ -216,10 +245,11 @@ const Home = () => {
                   </Form.Control>
                 </Form.Group>
                 <p className="pTag" id="quantityPTag">
-                  Available Power Banks: <strong>18</strong>
+                  Available Power Banks:{" "}
+                  <strong>{selectedStation.availablePowerBanks}</strong>
                 </p>
                 <p className="pTag">
-                  Price: <strong>$9</strong>/day
+                  Price: <strong>${selectedStation.price}</strong>/day
                 </p>
                 <div className="button-container">
                   <Button

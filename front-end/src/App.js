@@ -36,8 +36,7 @@ function App() {
       },
       {
         path: "/rentals",
-        element: <RentalHistory />,
-        loader: checkAuthLoader,
+        element: <RentalHistory />
       },
       {
         path: "/logout",

@@ -13,6 +13,17 @@
     </resultMap>
 
     <select id="getAllStationsInfo" resultMap="StationResultMap">
-        select * from charging_station_info;
+        SELECT * FROM charging_station_info;
     </select>
+
+    <select id="getSingleStationInfo" resultMap="StationResultMap">
+        SELECT * FROM charging_station_info
+        WHERE id = #{chargingStationId};
+    </select>
+
+    <update id="decrementPowerBankCount">
+        UPDATE charging_station_info
+        SET available_power_banks = available_power_banks - 1
+        WHERE id = #{chargingStationId};
+    </update>
 </mapper>

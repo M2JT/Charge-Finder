@@ -8,4 +8,8 @@ import java.util.List;
 @Mapper
 public interface StationMapper {
     List<ChargingStation> getAllStationsInfo();
+
+    ChargingStation getSingleStationInfo(Integer chargingStationId);
+
+    void decrementPowerBankCount(Integer chargingStationId);
 }

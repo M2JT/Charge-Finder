@@ -1,24 +1,17 @@
 package com.opensourcedev.backend.model;
 
 import java.util.Date;
-import lombok.Getter;
 
+import lombok.Data;
 
+@Data
 public class Rental {
-  @Getter
-  private Integer rentalId;
-  @Getter
-  private Integer userId;
-  @Getter
-  private Integer transactionId;
-  @Getter
-  private Date rentalDate;
-  @Getter
-  private Integer duration;
-  @Getter
-  private Integer charges;
-  @Getter
-  private String rentalStatus;
-  @Getter
-  private Integer chargingStationId;
+    private Integer rentalId;
+    private Integer userId;
+    private Integer transactionId;
+    private Date rentalDate;
+    private Integer duration;
+    private Integer charges;
+    private String rentalStatus;
+    private Integer chargingStationId;
 }

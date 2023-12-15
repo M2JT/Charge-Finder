@@ -1,39 +1,46 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.opensourcedev.backend.mapper.RentalMapper">
-  <resultMap id="RentalResultMap" type="com.opensourcedev.backend.model.Rental">
-    <id property="rentalId" column="id"></id>
-    <result property="userId" column="user_id"></result>
-    <result property="transactionId" column="transaction_id"></result>
-    <result property="rentalDate" column="rented_on_date"></result>
-    <result property="duration" column="duration"></result>
-    <result property="charges" column="charges"></result>
-    <result property="rentalStatus" column="rental_status"></result>
-    <result property="chargingStationId" column="charging_station_id"></result>
-  </resultMap>
+    <resultMap id="RentalResultMap" type="com.opensourcedev.backend.model.Rental">
+        <id property="rentalId" column="id"></id>
+        <result property="userId" column="user_id"></result>
+        <result property="transactionId" column="transaction_id"></result>
+        <result property="rentalDate" column="rented_on_date"></result>
+        <result property="duration" column="duration"></result>
+        <result property="charges" column="charges"></result>
+        <result property="rentalStatus" column="rental_status"></result>
+        <result property="chargingStationId" column="charging_station_id"></result>
+    </resultMap>
 
-  <select id="getRentalHistory" resultMap="RentalResultMap">
-    SELECT * FROM rental_history WHERE user_id = #{userId};
-  </select>
+    <select id="getRentalHistory" resultMap="RentalResultMap">
+        SELECT * FROM rental_history WHERE user_id = #{userId};
+    </select>
 
-  <update id="returnCharger" parameterType="Integer">
-    UPDATE rental_history
-    SET
-      rental_status = 'Returned',
-      charges = #{charges},
-      duration = #{duration}
-    WHERE id = #{rentalId};
-  </update>
+    <update id="returnCharger" parameterType="Integer">
+        UPDATE rental_history
+        SET
+        rental_status = 'Returned',
+        charges = #{charges},
+        duration = #{duration}
+        WHERE id = #{rentalId};
+    </update>
 
-  <update id="returnChargerStation" parameterType="Integer">
-    UPDATE charging_station_info
-    SET available_power_banks = available_power_banks + 1
-    WHERE id = #{stationId};
-  </update>
+    <update id="returnChargerStation" parameterType="Integer">
+        UPDATE charging_station_info
+        SET available_power_banks = available_power_banks + 1
+        WHERE id = #{stationId};
+    </update>
 
-  <select id="getRentalByID" resultMap="RentalResultMap">
-    SELECT * FROM rental_history WHERE id = #{rentalId};
-  </select>
+    <select id="getRentalByID" resultMap="RentalResultMap">
+        SELECT * FROM rental_history WHERE id = #{rentalId};
+    </select>
+
+    <insert id="rentPowerBank">
+        INSERT INTO rental_history (user_id, transaction_id, rented_on_date, duration, charges, rental_status,
+        charging_station_id)
+        VALUES (#{userId}, #{rentalDetail.transactionId}, #{rentalDetail.rentedOnDate}, #{rentalDetail.duration},
+        #{rentalDetail.chargesPerHour}, #{rentalDetail.rentalStatus}, #{rentalDetail.chargingStationId})
+    </insert>
 </mapper>

@@ -44,23 +44,22 @@ const Home = () => {
   //     position: { lat: 40.7410592, lng: -73.9896416 },
   //   },
   // ];
+  async function fetchAllStationsInfo() {
+    try {
+      console.log("fetching all stations info from backend...");
+      await axios
+        .get(`${process.env.REACT_APP_SERVER_URL}/getAllStations`)
+        .then((response) => {
+          console.log(response.data);
+          setAllStationsInfo(response.data);
+        });
+    } catch (err) {
+      console.log("couldn't get stations info from backend...");
+      console.error(err);
+    }
+  }
 
   useEffect(() => {
-    async function fetchAllStationsInfo() {
-      try {
-        console.log("fetching all stations info from backend...");
-        await axios
-          .get(`${process.env.REACT_APP_SERVER_URL}/getAllStations`)
-          .then((response) => {
-            console.log(response.data);
-            setAllStationsInfo(response.data);
-          });
-      } catch (err) {
-        console.log("couldn't get stations info from backend...");
-        console.error(err);
-      }
-    }
-
     fetchAllStationsInfo();
   }, []);
 
@@ -147,10 +146,44 @@ const Home = () => {
     </Link>
   );
 
-  const rentPowerBank = () => {
-    alert("rent successful!");
-    closeInfoWindow();
+  const rentPowerBank = async () => {
+    try {
+      const data = {
+        username: usernameLocalStorage,
+        transactionId: generateRandomTransactionId(),
+        rentedOnDate: getCurrentTime(),
+        duration: 1,
+        chargesPerHour: selectedStation.price,
+        rentalStatus: "Rented",
+        chargingStationId: selectedStation.stationId,
+      };
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/rent`, data);
+      alert("rent successful!");
+      closeInfoWindow();
+    } catch (err) {
+      console.error(err);
+      alert("Rent failed!");
+    }
+
+    fetchAllStationsInfo();
   };
+
+  function generateRandomTransactionId() {
+    const min = 1;
+    const max = 999999999;
+    const randomTransactionId = Math.floor(
+      Math.random() * (max - min + 1) + min
+    );
+
+    return randomTransactionId;
+  }
+
+  function getCurrentTime() {
+    const currentDate = new Date();
+    const formattedTime = currentDate.toISOString();
+
+    return formattedTime;
+  }
 
   return (
     <div className="home-container">
@@ -258,9 +291,11 @@ const Home = () => {
                   >
                     Get Direction
                   </Button>
-                  <Button onClick={() => rentPowerBank()} id="rentBtn">
-                    Rent
-                  </Button>
+                  {usernameLocalStorage && (
+                    <Button onClick={() => rentPowerBank()} id="rentBtn">
+                      Rent
+                    </Button>
+                  )}
                 </div>
               </div>
             </InfoWindow>

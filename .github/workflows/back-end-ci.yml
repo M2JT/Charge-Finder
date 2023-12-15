@@ -19,6 +19,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      DB_URL: ${{ secrets.DB_URL }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -27,8 +32,9 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: Set up environment variables
+      run: echo "DB_URL=${DB_URL}" >> $GITHUB_ENV && echo "DB_USERNAME=${DB_USERNAME}" >> $GITHUB_ENV && echo "DB_PASSWORD=${DB_PASSWORD}" >> $GITHUB_ENV
     - name: Build with Maven
       run: mvn -B package --file back-end/pom.xml
     - name: Run tests
       run: cd back-end && mvn test
-      

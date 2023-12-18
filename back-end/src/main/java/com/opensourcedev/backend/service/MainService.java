@@ -5,6 +5,8 @@ import com.opensourcedev.backend.model.ChargingStation;
 
 import com.opensourcedev.backend.model.Rental;
 
+import com.opensourcedev.backend.model.User;
+
 import java.util.List;
 
 public interface MainService {
@@ -15,4 +17,9 @@ public interface MainService {
     boolean returnCharger(Integer rentalId);
 
     boolean rentPowerBank(RentalDetail rentalDetail);
+
+    boolean registerUser(User user);
+
+    boolean authenticateUser(String email, String password);
+
 }

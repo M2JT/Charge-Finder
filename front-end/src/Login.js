@@ -64,36 +64,33 @@ const Login = () => {
 export default Login;
 
 export async function action({ request }) {
-  const data = await request.formData();
-  const authData = {
-    email: data.get('email'),
-    password: data.get('password'),
-  };
+  const formData = await request.formData();
+  console.log('Email:', formData.get('email'));
+  console.log('Password:', formData.get('password'));
+  const email = formData.get('email');
+  const password = formData.get('password');
 
-  const response = await fetch('http://localhost:8080/' + 'login', {
+  if (!email || !password) {
+    alert("Please enter both email and password.");
+    return;
+  }
+
+  const authData = { email, password };
+
+  const response = await fetch('http://localhost:8080/login', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(authData),
   });
 
-  if (response.status === 422 || response.status === 401) {
-    return response;
-  }
-
   if (!response.ok) {
-    throw json({ message: 'Could not authenticate user.' }, { status: 500 });
+    const text = await response.text();
+    alert(text);
+    return null;
   }
 
-  const resData = await response.json();
-  const token = resData.token;
-
-  localStorage.setItem('token', token);
-  const expiration = new Date();
-  expiration.setHours(expiration.getHours() + 1);
-  localStorage.setItem('expiration', expiration.toISOString());
-  localStorage.setItem('username','admin');
-
+  alert('Login successful.');
+  localStorage.setItem('username', email);
   return redirect('/');
 }
+

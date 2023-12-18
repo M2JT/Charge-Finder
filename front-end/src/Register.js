@@ -71,11 +71,11 @@ export async function action({ request }) {
   const data = await request.formData();
   const authData = {
     email: data.get("email"),
-    password: data.get("password"),
     username: data.get("username"),
+    userPassword: data.get("password"), 
   };
 
-  const response = await fetch("http://localhost:8080/" + "signup", {
+  const response = await fetch("http://localhost:8080/" + "register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

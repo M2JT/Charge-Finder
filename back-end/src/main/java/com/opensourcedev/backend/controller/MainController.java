@@ -38,7 +38,7 @@ public class MainController {
 
   @PostMapping("/return/{rentalId}")
   public String returnCharger(@PathVariable Integer rentalId) {
-    return (mainService.returnCharger(rentalId))
+    return (mainService.returnPowerBank(rentalId))
       ? "Rental returned successfully"
       : "Error, rental couldn't be returned.";
   }

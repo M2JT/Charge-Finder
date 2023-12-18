@@ -36,8 +36,8 @@ function App() {
       },
       {
         path: "/rentals",
-        element: <RentalHistory />
-        //Todo: once it's working add: loader: checkAuthLoader,
+        element: <RentalHistory />,
+        loader: checkAuthLoader,
       },
       {
         path: "/logout",

@@ -17,7 +17,7 @@ public interface MainService {
 
     List<Rental> getRentalHistory(String username);
 
-    boolean returnCharger(Integer rentalId);
+    boolean returnPowerBank(Integer rentalId);
 
     boolean rentPowerBank(RentalDetail rentalDetail);
 

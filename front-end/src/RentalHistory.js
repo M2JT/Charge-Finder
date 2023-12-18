@@ -15,9 +15,7 @@ const RentalHistory = () => {
 
   const fetchRentalHistory = async () => {
     try {
-      //Todo: fetch current username / user id
       const username = localStorage.getItem("username");
-      //const username = 'fe';
       const response = await fetch(
         `${API_BASE_URL + "/getRentalHistory/" + username}`
       );

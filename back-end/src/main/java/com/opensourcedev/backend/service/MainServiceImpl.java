@@ -42,10 +42,11 @@ public class MainServiceImpl implements MainService {
   }
 
   @Override
-  public boolean returnCharger(Integer rentalId) {
+  public boolean returnPowerBank(Integer rentalId) {
     Rental rentalToReturn = rentalMapper.getRentalByID(rentalId);
     Date startTime = rentalToReturn.getRentalDate();
-    Integer hoursBetween = calculateHoursBetweenDates(startTime, new Date());
+    long durationInMillis = new Date().getTime() - startTime.getTime();
+    int hoursBetween = (int) TimeUnit.MILLISECONDS.toHours(durationInMillis);
 
     Integer chargesPerHour = rentalToReturn.getCharges();
     Integer endPrice = chargesPerHour;
@@ -58,7 +59,7 @@ public class MainServiceImpl implements MainService {
     paramMap.put("charges", endPrice);
     paramMap.put("duration", hoursBetween);
     return (
-      rentalMapper.returnCharger(paramMap) &&
+      rentalMapper.returnPowerBank(paramMap) &&
       rentalMapper.returnChargerStation(rentalToReturn.getChargingStationId())
     );
   }
@@ -83,11 +84,6 @@ public class MainServiceImpl implements MainService {
       System.out.println(e.getMessage());
       return false;
     }
-  }
-
-  private Integer calculateHoursBetweenDates(Date startDate, Date endDate) {
-    long durationInMillis = endDate.getTime() - startDate.getTime();
-    return (int) TimeUnit.MILLISECONDS.toHours(durationInMillis);
   }
 
   @Override

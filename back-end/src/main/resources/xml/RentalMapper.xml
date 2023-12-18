@@ -18,7 +18,7 @@
         SELECT * FROM rental_history WHERE user_id = #{userId};
     </select>
 
-    <update id="returnCharger" parameterType="Integer">
+    <update id="returnPowerBank" parameterType="Integer">
         UPDATE rental_history
         SET
         rental_status = 'Returned',

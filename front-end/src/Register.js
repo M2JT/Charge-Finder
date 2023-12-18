@@ -71,11 +71,11 @@ export async function action({ request }) {
   const data = await request.formData();
   const authData = {
     email: data.get("email"),
-    password: data.get("password"),
+    userPassword: data.get("password"),
     username: data.get("username"),
   };
 
-  const response = await fetch("http://localhost:8080/" + "signup", {
+  const response = await fetch("http://localhost:8080/" + "register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -83,7 +83,11 @@ export async function action({ request }) {
     body: JSON.stringify(authData),
   });
 
-  if (response.status === 422 || response.status === 401) {
+  if (
+    response.status === 422 ||
+    response.status === 401 ||
+    response.status === 400
+  ) {
     return response;
   }
 
@@ -98,7 +102,9 @@ export async function action({ request }) {
   const expiration = new Date();
   expiration.setHours(expiration.getHours() + 1);
   localStorage.setItem("expiration", expiration.toISOString());
-  localStorage.setItem('username','admin');
+  localStorage.setItem("username", resData.username);
+  localStorage.setItem("email", resData.email);
+  localStorage.setItem("joinDate", resData.joinDate);
 
   return redirect("/");
 }

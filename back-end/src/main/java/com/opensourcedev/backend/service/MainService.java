@@ -1,5 +1,6 @@
 package com.opensourcedev.backend.service;
 
+import com.opensourcedev.backend.dto.LoginResponse;
 import com.opensourcedev.backend.dto.RentalDetail;
 import com.opensourcedev.backend.model.ChargingStation;
 
@@ -8,6 +9,8 @@ import com.opensourcedev.backend.model.Rental;
 import com.opensourcedev.backend.model.User;
 
 import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 
 public interface MainService {
     List<ChargingStation> getAllStationsInfo();
@@ -18,8 +21,10 @@ public interface MainService {
 
     boolean rentPowerBank(RentalDetail rentalDetail);
 
-    boolean registerUser(User user);
+    ResponseEntity<LoginResponse> registerUser(User user);
 
     boolean authenticateUser(String email, String password);
+
+    ResponseEntity<LoginResponse> loginUser(User user);
 
 }

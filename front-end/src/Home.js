@@ -29,7 +29,7 @@ const Home = () => {
   const [isGettingDirection, setIsGettingDirection] = useState(false);
   const [selectedTravelMode, setSelectedTravelMode] = useState("DRIVING");
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
-  const defaultLocation = { lat: 40.73061, lng: -73.935242 };
+  const defaultLocation = { lat: 40.724030, lng: -73.987610 };
   const [allStationsInfo, setAllStationsInfo] = useState([]);
 
   useEffect(() => {

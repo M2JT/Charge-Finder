@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "7a3888a0-37e1-47ba-89ed-947a3660f4c1",
+		"name": "Login-register",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31705668"
+	},
+	"item": [
+		{
+			"name": "registerNewUser",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function generateRandomNumber() {\r",
+							"    return Math.floor(Math.random() * 90000) + 10000;\r",
+							"}\r",
+							"\r",
+							"// Generate the random number\r",
+							"const randomNum = generateRandomNumber();\r",
+							"\r",
+							"// Set the random username in the request body\r",
+							"pm.environment.set(\"randomUsername\", `clark${randomNum}`);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking if registration is successful\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Registration succeed!\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{randomUsername}}\",\n    \"email\": \"{{randomUsername}}@superman.com\",\n    \"userPassword\": \"{{randomUsername}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registerduplicateUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Checking if registration is duplicate\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Error: duplicate username or email address\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"clark84770\",\n  \"email\": \"clark84770@superman.com\",\n  \"userPassword\": \"clark84770\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Fixed syntax \r",
+							"pm.test(\"Checking if login is successful\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Welcome to Charge Finder!\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"clark84770@superman.com\",\n    \"userPassword\": \"clark84770\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

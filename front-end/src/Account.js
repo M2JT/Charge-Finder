@@ -1,5 +1,5 @@
-import { Link, Navigate } from "react-router-dom";
-import { Popover, OverlayTrigger, Tabs, Tab, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Tabs, Tab, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/Account.css";
 import profileImg from "./images/profile-img.png";
@@ -7,21 +7,13 @@ import profileImg from "./images/profile-img.png";
 const Account = () => {
   const username = localStorage.getItem("username");
   const email = localStorage.getItem("email");
-  const joinDateTimestamp  = Number(localStorage.getItem("joinDate"));
+  const joinDateTimestamp = Number(localStorage.getItem("joinDate"));
   const joinDate = new Date(joinDateTimestamp);
-  const formattedDate = joinDate.toLocaleDateString('en-US', {
-    month: '2-digit',
-    day: '2-digit',
-    year: 'numeric'
+  const formattedDate = joinDate.toLocaleDateString("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
   });
-  console.log('formattedDate: ' , joinDateTimestamp)
-
-  // const showRentalHistoryPopover = (
-  //   <Popover className="Account-overlay">
-  //     <Popover.Header>System Messages:</Popover.Header>
-  //     <Popover.Body>Hello!</Popover.Body>
-  //   </Popover>
-  // );
 
   const Reroute = ({ to, children }) => (
     <Link to={to} className="reroute">
@@ -77,15 +69,6 @@ const Account = () => {
               <Button onClick={handleLogout} className="Account-logoutBtn">
                 Logout
               </Button>
-              {/* <OverlayTrigger
-                  trigger="click"
-                  placement="top"
-                  overlay={showRentalHistoryPopover}
-                >
-                  <button className="Account-checkRentalHistoryBtn">
-                    Rental History
-                  </button>
-                </OverlayTrigger> */}
             </div>
           </div>
         </main>

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link, Navigate, json, redirect } from "react-router-dom";
 import { Tabs, Tab } from "react-bootstrap";
 import "./css/Login.css";
@@ -61,7 +60,7 @@ export async function action({ request }) {
     userPassword: data.get("password"),
   };
 
-  const response = await fetch("http://localhost:8080/" + "login", {
+  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

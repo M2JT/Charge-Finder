@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link, Navigate, json, redirect } from "react-router-dom";
 import { Tabs, Tab } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -14,18 +13,6 @@ const Register = () => {
       {children}
     </Link>
   );
-
-  // const handleRegister = (e) => {
-  //   e.preventDefault();
-
-  //   if (username && password && email) {
-  //     // store username in localStorage
-  //     localStorage.setItem("username", username);
-  //     window.location.href = "/account";
-  //   } else {
-  //     alert("Please fill out all parts!");
-  //   }
-  // };
 
   return (
     <>
@@ -75,7 +62,7 @@ export async function action({ request }) {
     username: data.get("username"),
   };
 
-  const response = await fetch("http://localhost:8080/" + "register", {
+  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

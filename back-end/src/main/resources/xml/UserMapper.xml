@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.opensourcedev.backend.mapper.UserMapper">
 
-  <resultMap id="UserResultMap" type="com.opensourcedev.backend.model.User">
-    <id property="userId" column="id" />
-    <result property="userId" column="user_id" />
-    <result property="username" column="username" />
-    <result property="email" column="email" />
-    <result property="userPassword" column="user_password" />
-    <result property="joinDate" column="join_date" />
-  </resultMap>
-  <select id="getUserIDByName" resultType="java.lang.Integer">
-    SELECT id FROM user WHERE username = #{username};
-  </select>
+    <resultMap id="UserResultMap" type="com.opensourcedev.backend.model.User">
+        <id property="userId" column="id"/>
+        <result property="username" column="username"/>
+        <result property="email" column="email"/>
+        <result property="userPassword" column="user_password"/>
+        <result property="joinDate" column="join_date"/>
+    </resultMap>
+
+    <select id="getUserIDByName" resultType="java.lang.Integer">
+        SELECT id FROM user WHERE username = #{username}
+    </select>
+
+    <select id="checkDuplicateRegistration" resultMap="UserResultMap">
+        SELECT * FROM user WHERE username = #{newUsername} or email = #{newUserEmail}
+    </select>
+
+    <insert id="addNewUser">
+        INSERT INTO user (username, email, user_password, join_date) VALUES (#{username}, #{email},
+        #{userPassword}, #{joinDate})
+    </insert>
+
+    <select id="getUserByEmail" resultMap="UserResultMap">
+        SELECT * FROM user WHERE email = #{email}
+    </select>
 </mapper>

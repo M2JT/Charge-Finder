@@ -1,13 +1,11 @@
 import { Table, Tabs, Tab } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { format } from "date-fns";
 
 import "./css/RentalHistory.css";
 
 const RentalHistory = () => {
   const [rentalHistoryData, setRentalHistoryData] = useState([]);
-  const API_BASE_URL = "http://localhost:8080";
 
   useEffect(() => {
     fetchRentalHistory();
@@ -17,7 +15,7 @@ const RentalHistory = () => {
     try {
       const username = localStorage.getItem("username");
       const response = await fetch(
-        `${API_BASE_URL + "/getRentalHistory/" + username}`
+        `${process.env.REACT_APP_SERVER_URL + "/getRentalHistory/" + username}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -32,12 +30,15 @@ const RentalHistory = () => {
 
   const handleReturn = async (rentalId) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/return/${rentalId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/return/${rentalId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.ok) {
         console.log("Rental returned successfully");
@@ -48,6 +49,55 @@ const RentalHistory = () => {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const formatDateString = (inputDateString) => {
+    const inputDate = new Date(inputDateString);
+    const formattedDate = new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    }).format(inputDate);
+
+    return formattedDate.replace(",", "");
+  };
+
+  const calculateDuration = (returnDate, rentalDate, powerBankReturned) => {
+    let timeDifference = 0;
+
+    if (powerBankReturned) {
+      returnDate -= 5 * 3600000;
+      timeDifference = new Date(returnDate) - new Date(rentalDate);
+    } else {
+      timeDifference = new Date() - new Date(rentalDate);
+    }
+
+    const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+    const minutes = Math.floor(
+      (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+    );
+    let formattedDuration = "";
+
+    if (hours > 0) {
+      formattedDuration += `${hours} ${hours === 1 ? "hour" : "hours"}`;
+    }
+
+    if (minutes > 0) {
+      if (formattedDuration !== "") {
+        formattedDuration += " and ";
+      }
+
+      formattedDuration += `${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+    }
+
+    if (hours === 0 && minutes === 0) {
+      formattedDuration = "less than 1 minute";
+    }
+
+    return formattedDuration;
   };
 
   const Reroute = ({ to, children }) => (
@@ -84,13 +134,15 @@ const RentalHistory = () => {
           {rentalHistoryData.map((item, index) => (
             <tr key={index}>
               <td>{item.transactionId}</td>
-              <td>{format(new Date(item.rentalDate), "M/d/yyyy, HH:mm")}</td>
+              <td>{formatDateString(item.rentalDate)}</td>
               <td>
-                {item.duration <= 1 ? `<= 1 hour` : `${item.duration} hours`}
+                {item.rentalStatus === "Rented"
+                  ? calculateDuration(item.updateTime, item.rentalDate, false)
+                  : calculateDuration(item.updateTime, item.rentalDate, true)}
               </td>
               <td>
                 {item.rentalStatus === "Rented"
-                  ? `$${item.charges}/hour`
+                  ? `$${item.charges}/hr`
                   : `$${item.charges}`}
               </td>
               <td>{item.rentalStatus}</td>

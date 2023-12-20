@@ -14,4 +14,5 @@ public class Rental {
     private Integer charges;
     private String rentalStatus;
     private Integer chargingStationId;
+    private Date updateTime;
 }

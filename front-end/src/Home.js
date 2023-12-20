@@ -18,7 +18,6 @@ import axios from "axios";
 
 const Home = () => {
   const token = getAuthToken();
-  console.log(process.env.REACT_APP_API_KEY);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
   });
@@ -31,71 +30,57 @@ const Home = () => {
   const [selectedTravelMode, setSelectedTravelMode] = useState("DRIVING");
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
   const defaultLocation = { lat: 40.73061, lng: -73.935242 };
-  const homeLocation = { lat: 40.691929, lng: -73.97998 };
   const [allStationsInfo, setAllStationsInfo] = useState([]);
 
-  // const allChargingStations = [
-  //   { name: "school", position: { lat: 40.694292, lng: -73.985205 } },
-  //   { name: "random place", position: { lat: 40.6933639, lng: -73.9704101 } },
-  //   { name: "bobst lib", position: { lat: 40.7294287, lng: -73.9972178 } },
-  //   { name: "machi machi", position: { lat: 40.7479431, lng: -73.987102 } },
-  //   {
-  //     name: "flatiron building",
-  //     position: { lat: 40.7410592, lng: -73.9896416 },
-  //   },
-  // ];
-  async function fetchAllStationsInfo() {
+  useEffect(() => {
+    getUserCurrentLocation();
+    fetchAllStationsInfo();
+  }, []);
+
+  // call the calc direction function when a charging station is selected
+  useEffect(() => {
+    if (selectedStation) {
+      calculateDirections(currentLocation, selectedStation);
+      setIsGettingDirection(false);
+    }
+  }, [selectedStation, selectedTravelMode]);
+
+  // check if currentLocation is null and set it to defaultLocation
+  useEffect(() => {
+    if (!currentLocation) {
+      setCurrentLocation(defaultLocation);
+    }
+  }, [currentLocation]);
+
+  const fetchAllStationsInfo = async () => {
     try {
-      console.log("fetching all stations info from backend...");
       await axios
         .get(`${process.env.REACT_APP_SERVER_URL}/getAllStations`)
         .then((response) => {
-          console.log(response.data);
           setAllStationsInfo(response.data);
         });
     } catch (err) {
       console.log("couldn't get stations info from backend...");
       console.error(err);
     }
-  }
-
-  useEffect(() => {
-    fetchAllStationsInfo();
-  }, []);
+  };
 
   // get user's current location using Geolocation API
-  // useEffect(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         setCurrentLocation({
-  //           lat: position.coords.latitude,
-  //           lng: position.coords.longitude,
-  //         });
-  //       },
-  //       (error) => {
-  //         console.error("Error getting current location:", error);
-  //       }
-  //     );
-  //   }
-  // }, []);
-
-  // call the calc direction function when a charging station
-  // is selected
-  // useEffect(() => {
-  //   if (selectedStationLocation) {
-  //     calculateDirections(currentLocation, selectedStationLocation);
-  //     setIsGettingDirection(false);
-  //   }
-  // }, [selectedStationLocation, selectedTravelMode]);
-
-  // for testing purpose DO NOT DELETE
-  useEffect(() => {
-    if (selectedStation) {
-      calculateDirections(homeLocation, selectedStation);
-      setIsGettingDirection(false);
+  const getUserCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCurrentLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error("Error getting current location:", error);
+        }
+      );
     }
-  }, [selectedStation, selectedTravelMode]);
+  };
 
   const calculateDirections = async (origin, selectedStation) => {
     const directionsService = new window.google.maps.DirectionsService();
@@ -125,17 +110,9 @@ const Home = () => {
     setIsInfoWindowOpen(false);
   };
 
-  // const centerMapOnUser = () => {
-  //   if (currentLocation && map) {
-  //     map.panTo(currentLocation);
-  //     map.setZoom(15);
-  //   }
-  // };
-
-  // for testing DO NOT DELETE
   const centerMapOnUser = () => {
-    if (homeLocation && map) {
-      map.panTo(homeLocation);
+    if (currentLocation && map) {
+      map.panTo(currentLocation);
       map.setZoom(15);
     }
   };
@@ -168,7 +145,7 @@ const Home = () => {
     fetchAllStationsInfo();
   };
 
-  function generateRandomTransactionId() {
+  const generateRandomTransactionId = () => {
     const min = 1;
     const max = 999999999;
     const randomTransactionId = Math.floor(
@@ -176,14 +153,14 @@ const Home = () => {
     );
 
     return randomTransactionId;
-  }
+  };
 
-  function getCurrentTime() {
+  const getCurrentTime = () => {
     const currentDate = new Date();
     const formattedTime = currentDate.toISOString();
 
     return formattedTime;
-  }
+  };
 
   return (
     <div className="home-container">
@@ -222,11 +199,8 @@ const Home = () => {
             height: "93vh",
             width: "100%",
           }}
-          // for testing purpose DO NOT DELETE
           zoom={15}
-          center={homeLocation}
-          // zoom={currentLocation ? 15 : 10}
-          // center={currentLocation || defaultLocation}
+          center={currentLocation}
           onLoad={(map) => setMap(map)}
         >
           {/* show the location of each charging station on the map */}
@@ -282,7 +256,7 @@ const Home = () => {
                   <strong>{selectedStation.availablePowerBanks}</strong>
                 </p>
                 <p className="pTag">
-                  Price: <strong>${selectedStation.price}</strong>/day
+                  Price: <strong>${selectedStation.price}</strong>/hr
                 </p>
                 <div className="button-container">
                   <Button
@@ -302,21 +276,9 @@ const Home = () => {
           )}
 
           {/* user's current location */}
-          {/* {currentLocation && (
+          {currentLocation && (
             <MarkerF
               position={currentLocation}
-              label="You are here!"
-              icon={{
-                url: curLocationIcon,
-                scaledSize: new window.google.maps.Size(45, 45),
-              }}
-            />
-          )} */}
-
-          {/* for testing purpose DO NOT DELETE */}
-          {homeLocation && (
-            <MarkerF
-              position={homeLocation}
               label="You are here!"
               icon={{
                 url: curLocationIcon,

@@ -12,6 +12,7 @@
         <result property="charges" column="charges"></result>
         <result property="rentalStatus" column="rental_status"></result>
         <result property="chargingStationId" column="charging_station_id"></result>
+        <result property="updateTime" column="update_time"></result>
     </resultMap>
 
     <select id="getRentalHistory" resultMap="RentalResultMap">

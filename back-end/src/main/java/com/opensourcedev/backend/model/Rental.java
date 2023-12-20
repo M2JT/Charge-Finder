@@ -15,4 +15,17 @@ public class Rental {
     private String rentalStatus;
     private Integer chargingStationId;
     private Date updateTime;
+
+    public Rental(Integer rentalId, Integer userId, Integer transactionId, Date rentalDate,
+        Integer duration, Integer charges, String rentalStatus, Integer chargingStationId) {
+        this.rentalId = rentalId;
+        this.userId = userId;
+        this.transactionId = transactionId;
+        this.rentalDate = rentalDate;
+        this.duration = duration;
+        this.charges = charges;
+        this.rentalStatus = rentalStatus;
+        this.chargingStationId = chargingStationId;
+    }
+    
 }

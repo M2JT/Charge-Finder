@@ -72,7 +72,7 @@ We all know how annoying it can be when our devices run out of battery, especial
 ### In the Front-end Directory
 #### Set Up and Run the Front-end
 1. In VS Code, Run `npm install` to install all dependencies listed in `package.json`.
-2. Create a `.env` file and save it in the root directory. To ensure this file is configured with the correct environmental variables, please contact our developers for more information, as those data are sensitive and not allowed to be publicly shared on GitHub.
+2. Please follow the  instructions in .env file in root folder to ensure the project is properly configured with the correct environmental variables. In case of issues, please contact our developers for more information, these data are sensitive and not allowed to be publicly shared on GitHub.
 3. Run `npm start` to start the front-end.
 4. Open [http://localhost:3000](http://localhost:3000) to view our app in your browser.
 
@@ -81,3 +81,4 @@ We all know how annoying it can be when our devices run out of battery, especial
 ![unit tests](documentation/unit%20tests.png)
 2. Alternatively, you can run `mvn test` in back-end's root directory using terminal.
 ![unit tests in terminal](documentation/unit%20tests%20terminal.png)
+3. You can also run postman tests for integration testing by importing and running the collections inside [LoginResgisterTests](postma%20tests/Login-register.postman_collection.json)

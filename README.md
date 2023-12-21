@@ -54,31 +54,67 @@ We all know how annoying it can be when our devices run out of battery, especial
 ## How To Run This Project
 ### Download and Install
 1. [IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download) (for back-end usage)
+
 2. [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) (use `java -version` to verify installation in terminal)
+
 3. [Maven](https://maven.apache.org/download.cgi) (use `mvn -v` to verify installation in terminal)
+
 4. [Visual Studio Code](https://code.visualstudio.com/download) (for front-end usage)
+
 5. In IntelliJ, **Preferences** -> **Plugins**, install `Lombok` from the marketplace
+
 ![lombok](documentation/lombok.png)
 
 ### In the Back-end Directory
+
 #### Set Up and Run the Back-end
 1. In IntelliJ, click the reload icon to ensure all dependencies are installed, then click `clean` and `compile`, you should see `[INFO] BUILD SUCCESS` shown in the Run tab for each of these operations.
+
 ![reload back-end](documentation/reload%20back-end.png)
-3. create a `env.properties` file and save it in the root directory. To ensure this file is configured with the correct environmental variables, please contact our developers for more information, as those data are sensitive and not allowed to be publicly shared on GitHub.
+
+2. create a `env.properties` file and save it in the root (`/env.properties`) directory (where the github project is present). To ensure this file is configured with the correct environmental variables, please contact our developers for more information, as those data are sensitive and not allowed to be publicly shared on GitHub.
+
+The `env.properties` file should look something like this
+
+```
+DB_URL=jdbc:mysql:aws://charge-finder.cbqttujwav7z.us-east-2.rds.amazonaws.com:3306/charge_finder
+DB_USERNAME=username
+DB_PASSWORD=password
+``` 
+
 3. Go to **src** -> **main** -> **java** -> **com.opensourcedev.backend**, and run `MainApplication`, this will boot up the back-end.
+
 ![start back-end](documentation/run%20back-end.png)
 
 
 ### In the Front-end Directory
+
 #### Set Up and Run the Front-end
 1. In VS Code, Run `npm install` to install all dependencies listed in `package.json`.
-2. Please follow the  instructions in .env file in root folder to ensure the project is properly configured with the correct environmental variables. In case of issues, please contact our developers for more information, these data are sensitive and not allowed to be publicly shared on GitHub.
+
+2. Please follow the  instructions in .env file in the front-end folder (`/front-end/.env`) to ensure the project is properly configured with the correct environmental variables. In case of issues, please contact our developers for more information, these data are sensitive and not allowed to be publicly shared on GitHub.
+
+The `.env` file should look something like this
+
+```
+#add your google maps api key below for the map functionalities of the project to work
+REACT_APP_API_KEY = 
+REACT_APP_SERVER_URL = http://localhost:8080
+``` 
+
 3. Run `npm start` to start the front-end.
+
 4. Open [http://localhost:3000](http://localhost:3000) to view our app in your browser.
 
 ### Run the Tests
-1. In IntelliJ, go to **src** -> **test** -> **java** -> **com.opensourcedev.backend**, and run `MainTest`
+
+1. In IntelliJ, go to **src** -> **test** -> **java** -> **com.opensourcedev.backend**, and run `MainTest.java`
+
 ![unit tests](documentation/unit%20tests.png)
+
 2. Alternatively, you can run `mvn test` in back-end's root directory using terminal.
+
 ![unit tests in terminal](documentation/unit%20tests%20terminal.png)
-3. You can also run postman tests for integration testing by importing and running the collections inside [LoginResgisterTests](postma%20tests/Login-register.postman_collection.json)
+
+3. You can also run postman tests for integration testing by importing and running the collections inside 
+[LoginResgisterTests](postma%20tests/Login-register.postman_collection.json)

@@ -70,7 +70,7 @@ We all know how annoying it can be when our devices run out of battery, especial
 1. In IntelliJ, click the reload icon to ensure all dependencies are installed, then click `clean` and `compile`, you should see `[INFO] BUILD SUCCESS` shown in the Run tab for each of these operations.
    ![reload back-end](documentation/reload%20back-end.png)
 
-2. Create a `env.properties` file and save it in the root (`/env.properties`) directory (where the GitHub project is present). To ensure this file is configured with the correct environmental variables, please contact our developers for more information, as those data are sensitive and not allowed to be publicly shared on GitHub.
+2. Create a `env.properties` file and save it in the back-end directory (`/back-end/env.properties`) directory (where the GitHub project is present). To ensure this file is configured with the correct environmental variables, please contact our developers for more information, as those data are sensitive and not allowed to be publicly shared on GitHub.
 
 The `env.properties` file should look something like this
 

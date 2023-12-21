@@ -81,4 +81,4 @@ We all know how annoying it can be when our devices run out of battery, especial
 ![unit tests](documentation/unit%20tests.png)
 2. Alternatively, you can run `mvn test` in back-end's root directory using terminal.
 ![unit tests in terminal](documentation/unit%20tests%20terminal.png)
-3. You can also run postman tests for integration testing by importing and running the collections inside [LoginResgisterTests](postma%20tests/Login-register.postman_collection.json)
+3. You can also run postman tests for integration testing by importing and running the collections inside [LoginResgisterTests](postman%20tests/Login-register.postman_collection.json)

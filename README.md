@@ -1,7 +1,7 @@
 # charge-finder
 
 ## Background & Objective
-We all know how annoying it can be when our devices run out of battery, especially when we are out and about. Picture this: you forgot to charge your phone/laptop last night, but you’ve got a full day of outdoor work ahead. That’s why ChargeFinder is here. It is a handy app that saves you from the dreaded “low battery anxiety.” With ChargeFinder, you can quickly locate nearby spots where you can grab a shared power bank for a quick charge.
+We all know how annoying it can be when our devices run out of battery, especially when we are out and about. Picture this: you forgot to charge your phone/laptop last night, but you’ve got a full day of outdoor work ahead. That’s why ChargeFinder is here. It is a handy app that saves you from the dreaded "low battery anxiety." With ChargeFinder, you can quickly locate nearby spots where you can grab a shared power bank for a quick charge.
 
 ## Features
 ### Home Page
@@ -90,7 +90,7 @@ DB_PASSWORD=password
 #### Set Up and Run the Front-end
 1. In VS Code, Run `npm install` to install all dependencies listed in `package.json`.
 
-2. Create a `.env` file and save it in the front-end folder (`/front-end/.env`). To ensure this file is configured with the correct environmental variables, please contact our developers for more information, as those data are sensitive and not allowed to be publicly shared on GitHub.
+2. Create a `.env` file and save it in the front-end directory (`/front-end/.env`). Please watch [this tutorial](https://www.youtube.com/watch?v=iP3DnhCUIsE&t=150s) (2:30 - 5:00) to see how to acquire your own Google Maps API key.
 
 The `.env` file should look something like this
 
@@ -109,4 +109,4 @@ REACT_APP_SERVER_URL = http://localhost:8080
    ![unit tests](documentation/unit%20tests.png)
 2. Alternatively, you can run `mvn test` in back-end's root directory using terminal.
    ![unit tests in terminal](documentation/unit%20tests%20terminal.png)
-3. You can also run postman tests for integration testing by importing and running the collections inside [LoginResgisterTests](postman%20tests/Login-register.postman_collection.json)
+3. You can also run [Postman](https://www.postman.com/downloads/) tests for integration testing by importing and running the collections inside [LoginResgisterTests](postman%20tests/Login-register.postman_collection.json)

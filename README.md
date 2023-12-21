@@ -64,7 +64,7 @@ We all know how annoying it can be when our devices run out of battery, especial
 #### Set Up and Run the Back-end
 1. In IntelliJ, click the reload icon to ensure all dependencies are installed, then click `clean` and `compile`, you should see `[INFO] BUILD SUCCESS` shown in the Run tab for each of these operations.
 ![reload back-end](documentation/reload%20back-end.png)
-3. create a `env.properties` file and save it in the root directory. To ensure this file is configured with the correct environmental variables, please contact our developers for more information, as those data are sensitive and not allowed to be publicly shared on GitHub.
+3. Create a `env.properties` file and save it in the root directory. To ensure this file is configured with the correct environmental variables, please contact our developers for more information, as those data are sensitive and not allowed to be publicly shared on GitHub.
 3. Go to **src** -> **main** -> **java** -> **com.opensourcedev.backend**, and run `MainApplication`, this will boot up the back-end.
 ![start back-end](documentation/run%20back-end.png)
 
@@ -72,7 +72,7 @@ We all know how annoying it can be when our devices run out of battery, especial
 ### In the Front-end Directory
 #### Set Up and Run the Front-end
 1. In VS Code, Run `npm install` to install all dependencies listed in `package.json`.
-2. Please follow the  instructions in .env file in root folder to ensure the project is properly configured with the correct environmental variables. In case of issues, please contact our developers for more information, these data are sensitive and not allowed to be publicly shared on GitHub.
+2. Create a `.env` file and save it in the root directory. To ensure this file is configured with the correct environmental variables, please contact our developers for more information, as those data are sensitive and not allowed to be publicly shared on GitHub.
 3. Run `npm start` to start the front-end.
 4. Open [http://localhost:3000](http://localhost:3000) to view our app in your browser.
 
